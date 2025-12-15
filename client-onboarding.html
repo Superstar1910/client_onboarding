@@ -1481,28 +1481,33 @@
           nextBtn.disabled = true;
           nextBtn.textContent = "Submitting...";
 
-          fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(payload),
-          })
-            .then((res) => {
-              if (!res.ok) {
-                throw new Error("Network response was not ok");
-              }
-              return res.text();
-            })
-            .then((text) => {
-              console.log("Google Sheets response:", text);
-              alert("Thank you. Your New Client Questionnaire has been submitted.");
-              form.reset();
-              updateChipSelection();
-              showStep(0);
-            })
-            .catch((err) => {
-              console.error("Error submitting form:", err);
-              alert("There was an error submitting the form. Please try again or contact support.");
-            })
+         fetch(GOOGLE_SCRIPT_URL, {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(payload),
+})
+  .then((res) => {
+    if (!res.ok) {
+      throw new Error("HTTP " + res.status + " " + res.statusText);
+    }
+    return res.json().catch(() => ({})); // try to parse JSON, fallback to empty object
+  })
+  .then((data) => {
+    console.log("Google Sheets response:", data);
+
+    if (data.status && data.status !== "success") {
+      throw new Error(data.message || "Apps Script returned an error");
+    }
+
+    alert("Thank you. Your New Client Questionnaire has been submitted.");
+    form.reset();
+    updateChipSelection();
+    showStep(0);
+  })
+  .catch((err) => {
+    console.error("Error submitting form:", err);
+    alert("Error submitting form: " + err.message);
+  })
             .finally(() => {
               nextBtn.disabled = false;
               nextBtn.textContent = "Submit";
