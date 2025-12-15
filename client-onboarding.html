@@ -697,3 +697,297 @@
 
             <div class="form-group">
               <label for="illiquid">Restricted / Illiquid Assets with Lock-up</label>
+              <textarea id="illiquid" name="illiquid"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="cryptoHoldings">Crypto or Digital Asset Holdings (optional)</label>
+              <textarea id="cryptoHoldings" name="cryptoHoldings"></textarea>
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="pension">Pension Funds / Retirement Accounts</label>
+                <textarea id="pension" name="pension"></textarea>
+              </div>
+              <div class="form-group">
+                <label for="insurance">Insurance Policies</label>
+                <textarea id="insurance" name="insurance"></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 7: VALUES -->
+          <fieldset data-title="Ethical, Religious & Impact Preferences">
+            <div class="section-title">7. Ethical, Religious & Impact Preferences</div>
+
+            <div class="form-group">
+              <label for="esgPreference">ESG or impact investment preferences</label>
+              <textarea id="esgPreference" name="esgPreference"></textarea>
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Preference for Shariah-compliant Investment Options</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="shariah" value="Required" />Required</label>
+                  <label class="chip"><input type="radio" name="shariah" value="Preferred" />Preferred</label>
+                  <label class="chip"><input type="radio" name="shariah" value="NoPreference" />No preference</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Industries You Prefer to Avoid</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="checkbox" name="excludedSectors" value="Alcohol" />Alcohol</label>
+                  <label class="chip"><input type="checkbox" name="excludedSectors" value="Tobacco" />Tobacco</label>
+                  <label class="chip"><input type="checkbox" name="excludedSectors" value="Gambling" />Gambling</label>
+                  <label class="chip"><input type="checkbox" name="excludedSectors" value="FossilFuels" />Fossil fuels</label>
+                  <label class="chip"><input type="checkbox" name="excludedSectors" value="Weapons" />Weapons</label>
+                  <label class="chip"><input type="checkbox" name="excludedSectors" value="Other" />Other</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="climateAligned">Climate-aligned or net-zero oriented strategies</label>
+              <textarea id="climateAligned" name="climateAligned"></textarea>
+            </div>
+          </fieldset>
+
+          <!-- 8: KYC -->
+          <fieldset data-title="KYC & Compliance">
+            <div class="section-title">8. Regulatory, KYC & Compliance</div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="idType">Primary Identification Document</label>
+                <select id="idType" name="idType">
+                  <option value="">Select...</option>
+                  <option>Passport</option>
+                  <option>National ID</option>
+                  <option>Driver’s license</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="proofOfAddress">Proof of Address</label>
+                <select id="proofOfAddress" name="proofOfAddress">
+                  <option value="">Select...</option>
+                  <option>Utility bill</option>
+                  <option>Bank statement</option>
+                  <option>Tenancy agreement</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sourceOfFunds">Source of Funds Declaration</label>
+                <textarea id="sourceOfFunds" name="sourceOfFunds"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Politically Exposed Person (PEP) or related?</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="pepStatus" value="No" />No</label>
+                  <label class="chip"><input type="radio" name="pepStatus" value="Yes" />Yes</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="legalEncumbrances">Legal disputes or encumbrances</label>
+                <textarea id="legalEncumbrances" name="legalEncumbrances"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="taxResidency">Tax Residency & Identification Number</label>
+                <textarea id="taxResidency" name="taxResidency"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Require tax-optimised structuring advice?</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="taxStructuring" value="Yes" />Yes</label>
+                  <label class="chip"><input type="radio" name="taxStructuring" value="No" />No</label>
+                  <label class="chip"><input type="radio" name="taxStructuring" value="Unsure" />Unsure</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 9: DIGITAL -->
+          <fieldset data-title="Digital & Web3 Readiness">
+            <div class="section-title">9. Digital & Web3 Readiness (Optional)</div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Do you currently use a crypto wallet?</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="hasWallet" value="Yes" />Yes</label>
+                  <label class="chip"><input type="radio" name="hasWallet" value="No" />No</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="walletType">Preferred Wallet</label>
+                <select id="walletType" name="walletType">
+                  <option value="">Select...</option>
+                  <option>MetaMask</option>
+                  <option>Coinbase Wallet</option>
+                  <option>Trust Wallet</option>
+                  <option>Ledger</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Connect a wallet for shadow portfolio tracking only?</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="shadowTracking" value="Yes" />Yes</label>
+                  <label class="chip"><input type="radio" name="shadowTracking" value="No" />No</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="digitalComfort">Comfort with digital signatures / multisig wallets</label>
+                <select id="digitalComfort" name="digitalComfort">
+                  <option value="">Select...</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Interest in including digital assets in your portfolio</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="digitalExposure" value="None" />None</label>
+                  <label class="chip"><input type="radio" name="digitalExposure" value="Small" />Small</label>
+                  <label class="chip"><input type="radio" name="digitalExposure" value="Moderate" />Moderate</label>
+                  <label class="chip"><input type="radio" name="digitalExposure" value="High" />High</label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Interest in tokenized assets (RWAs, tokenized treasuries, stablecoins)</label>
+                <div class="inline-options">
+                  <label class="chip"><input type="radio" name="tokenizedInterest" value="Yes" />Yes</label>
+                  <label class="chip"><input type="radio" name="tokenizedInterest" value="No" />No</label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- 10: SERVICE MODEL -->
+          <fieldset data-title="Service Model & Expectations">
+            <div class="section-title">10. Service Model & Expectations</div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="engagementModel">Preferred Engagement Model</label>
+                <select id="engagementModel" name="engagementModel">
+                  <option value="">Select...</option>
+                  <option>Advisory (Non-discretionary)</option>
+                  <option>Discretionary</option>
+                  <option>Hybrid</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="reportingFrequency">Reporting Frequency</label>
+                <select id="reportingFrequency" name="reportingFrequency">
+                  <option value="">Select...</option>
+                  <option>Monthly</option>
+                  <option>Quarterly</option>
+                  <option>Semi-annual</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="benchmarkPreference">Performance Benchmark Preference</label>
+                <textarea id="benchmarkPreference" name="benchmarkPreference"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="delegation">Willingness to delegate portfolio decisions</label>
+                <select id="delegation" name="delegation">
+                  <option value="">Select...</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>What do you expect from your advisor? (select all that apply)</label>
+              <div class="inline-options">
+                <label class="chip"><input type="checkbox" name="expectations" value="AssetAllocation" />Strategic asset allocation</label>
+                <label class="chip"><input type="checkbox" name="expectations" value="TaxStructuring" />Tax & structuring support</label>
+                <label class="chip"><input type="checkbox" name="expectations" value="PortfolioReview" />Portfolio review</label>
+                <label class="chip"><input type="checkbox" name="expectations" value="PrivateMarkets" />Access to private markets</label>
+                <label class="chip"><input type="checkbox" name="expectations" value="FinancialPlanning" />Financial planning</label>
+                <label class="chip"><input type="checkbox" name="expectations" value="Research" />Research</label>
+                <label class="chip"><input type="checkbox" name="expectations" value="GlobalAccess" />Global markets access</label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="feeComfort">Budget / Comfort with Advisory Fees</label>
+              <textarea id="feeComfort" name="feeComfort"></textarea>
+            </div>
+          </fieldset>
+
+          <!-- 11: FINAL -->
+          <fieldset data-title="Final Details & Signature">
+            <div class="section-title">11. Final Details & Signature</div>
+
+            <div class="form-group">
+              <label for="anythingElse">Anything else you want us to know?</label>
+              <textarea id="anythingElse" name="anythingElse"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="success10yrs">What does financial success look like to you in 10 years?</label>
+              <textarea id="success10yrs" name="success10yrs"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="riskSentence">Describe your relationship with risk in one sentence.</label>
+              <textarea id="riskSentence" name="riskSentence"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="signatureName">Name for Digital Signature</label>
+              <input type="text" id="signatureName" name="signatureName" />
+            </div>
+
+            <div class="form-group">
+              <label for="signatureDate">Date of Completion</label>
+              <input type="date" id="signatureDate" name="signatureDate" />
+            </div>
+
+            <p class="helper-text">
+              By submitting this form, you confirm that the information provided may be used for advisory and compliance purposes.
+            </p>
+          </fieldset>
+
+          <!-- Footer -->
+          <div class="form-footer">
+            <div class="button-row">
+              <button type="button" class="btn-secondary" id="prevBtn">← Previous</button>
+              <button type="button" class="btn-primary" id="nextBtn">Next →</button>
+            </div>
+            <div class="meta-note">
+              For testing: all questions are optional; submission should create a row in your Google Sheet.
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Separate JS file -->
+  <script src="client-onboarding.js"></script>
+</body>
+</html>
