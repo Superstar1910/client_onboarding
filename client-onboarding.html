@@ -1,0 +1,1528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>New Client Onboarding Form</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --bg-soft: #111827;
+      --card: #020617;
+      --accent: #38bdf8;
+      --accent-soft: rgba(56, 189, 248, 0.15);
+      --accent-strong: #0ea5e9;
+      --border: #1f2937;
+      --text: #e5e7eb;
+      --muted: #9ca3af;
+      --error: #f97373;
+      --radius-lg: 16px;
+      --radius-sm: 8px;
+      --shadow-soft: 0 20px 50px rgba(0, 0, 0, 0.45);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background: radial-gradient(circle at top, #1f2937 0, #020617 55%, #000 100%);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .wrapper {
+      max-width: 980px;
+      width: 100%;
+    }
+
+    .shell {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.16), rgba(129, 140, 248, 0.08));
+      padding: 2px;
+      border-radius: 24px;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .container {
+      background: radial-gradient(circle at top left, rgba(56, 189, 248, 0.06), transparent 60%),
+                  radial-gradient(circle at bottom right, rgba(129, 140, 248, 0.06), transparent 60%),
+                  var(--card);
+      border-radius: 22px;
+      padding: 24px 20px 20px;
+    }
+
+    @media (min-width: 768px) {
+      .container {
+        padding: 32px 32px 28px;
+      }
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      margin: 0 0 4px;
+      letter-spacing: 0.02em;
+    }
+
+    .subtitle {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.75rem;
+      color: var(--accent-strong);
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      padding: 4px 10px;
+      border-radius: 999px;
+      margin-bottom: 10px;
+    }
+
+    .badge-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: var(--accent-strong);
+      box-shadow: 0 0 12px rgba(56, 189, 248, 0.9);
+    }
+
+    /* Progress bar */
+
+    .progress-shell {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: 999px;
+      padding: 4px;
+      border: 1px solid var(--border);
+      margin-bottom: 18px;
+    }
+
+    .progress-track {
+      height: 8px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 8px;
+      border-radius: 999px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+      transition: width 0.3s ease;
+    }
+
+    .progress-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .progress-step-label {
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    /* Step pills */
+
+    .steps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 16px;
+    }
+
+    .step-pill {
+      flex: 1;
+      min-width: calc(100% / 3 - 4px);
+      text-align: center;
+      font-size: 0.72rem;
+      padding: 5px 6px;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .step-pill.active {
+      border-color: rgba(56, 189, 248, 0.7);
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .step-pill.completed {
+      border-color: rgba(34, 197, 94, 0.5);
+      color: #22c55e;
+    }
+
+    .step-pill span {
+      opacity: 0.7;
+    }
+
+    /* Form layout */
+
+    form {
+      margin-top: 10px;
+    }
+
+    fieldset {
+      border: none;
+      padding: 0;
+      margin: 0;
+      display: none;
+    }
+
+    fieldset.active {
+      display: block;
+      animation: fadeIn 0.25s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .section-title {
+      font-size: 1.05rem;
+      margin-bottom: 12px;
+    }
+
+    .section-description {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 12px 18px;
+    }
+
+    @media (min-width: 720px) {
+      .grid-2 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      color: var(--text);
+    }
+
+    label span.hint {
+      font-size: 0.75rem;
+      color: var(--muted);
+      font-weight: 400;
+      margin-left: 4px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="number"],
+    input[type="date"],
+    textarea,
+    select {
+      background: rgba(15, 23, 42, 0.9);
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border);
+      padding: 8px 10px;
+      color: var(--text);
+      font-size: 0.86rem;
+      outline: none;
+      transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    }
+
+    input::placeholder,
+    textarea::placeholder {
+      color: #4b5563;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--accent-strong);
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.4);
+      background: rgba(15, 23, 42, 1);
+    }
+
+    .inline-options {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .chip {
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      padding: 6px 10px;
+      font-size: 0.78rem;
+      cursor: pointer;
+      background: rgba(15, 23, 42, 0.9);
+      color: var(--muted);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .chip input {
+      display: none;
+    }
+
+    .chip.selected {
+      border-color: var(--accent-strong);
+      background: var(--accent-soft);
+      color: var(--accent-strong);
+    }
+
+    .helper-text {
+      font-size: 0.75rem;
+      color: var(--muted);
+    }
+
+    .error {
+      font-size: 0.78rem;
+      color: var(--error);
+      display: none;
+    }
+
+    .error.visible {
+      display: block;
+    }
+
+    /* Footer / buttons */
+
+    .form-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-top: 18px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(31, 41, 55, 0.85);
+    }
+
+    .button-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      border-radius: 999px;
+      border: none;
+      padding: 8px 16px;
+      font-size: 0.85rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      transition: background 0.2s ease, transform 0.1s ease, box-shadow 0.2s ease;
+      font-weight: 500;
+    }
+
+    .btn-secondary {
+      background: rgba(15, 23, 42, 1);
+      color: var(--muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(31, 41, 55, 0.9);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #0b1120;
+      box-shadow: 0 12px 30px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(56, 189, 248, 0.4);
+    }
+
+    .btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 10px 24px rgba(56, 189, 248, 0.3);
+    }
+
+    .btn-primary[disabled] {
+      opacity: 0.5;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    .meta-note {
+      font-size: 0.75rem;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    .required {
+      color: #f97373;
+      margin-left: 3px;
+    }
+
+    .pill-count {
+      font-size: 0.7rem;
+      opacity: 0.7;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="shell">
+      <div class="container">
+        <div class="badge">
+          <span class="badge-dot"></span>
+          New Client Onboarding · Wealth & Investment Advisory
+        </div>
+        <h1>New Client Questionnaire</h1>
+        <p class="subtitle">
+          Help us understand your profile, goals, and preferences so we can design an investment strategy and
+          Investment Policy Statement (IPS) tailored specifically to you.
+        </p>
+
+        <!-- Progress -->
+        <div class="progress-shell">
+          <div class="progress-track">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+          <div class="progress-meta">
+            <span class="progress-step-label" id="stepLabel">Section 1 of 11 · Personal Information</span>
+            <span id="progressPercent">0%</span>
+          </div>
+        </div>
+
+        <!-- Step pills -->
+        <div class="steps" id="stepPills">
+          <button type="button" class="step-pill active" data-step="0">
+            1 · <span>Personal</span>
+          </button>
+          <button type="button" class="step-pill" data-step="1">
+            2 · <span>Financial</span>
+          </button>
+          <button type="button" class="step-pill" data-step="2">
+            3 · <span>Experience</span>
+          </button>
+          <button type="button" class="step-pill" data-step="3">
+            4 · <span>Goals</span>
+          </button>
+          <button type="button" class="step-pill" data-step="4">
+            5 · <span>Risk</span>
+          </button>
+          <button type="button" class="step-pill" data-step="5">
+            6 · <span>Portfolio</span>
+          </button>
+          <button type="button" class="step-pill" data-step="6">
+            7 · <span>Values</span>
+          </button>
+          <button type="button" class="step-pill" data-step="7">
+            8 · <span>KYC</span>
+          </button>
+          <button type="button" class="step-pill" data-step="8">
+            9 · <span>Digital</span>
+          </button>
+          <button type="button" class="step-pill" data-step="9">
+            10 · <span>Service</span>
+          </button>
+          <button type="button" class="step-pill" data-step="10">
+            11 · <span>Final</span>
+          </button>
+        </div>
+
+        <form id="onboardingForm">
+          <!-- SECTION 1: PERSONAL -->
+          <fieldset class="active" data-title="Personal & Contact Information">
+            <div class="section-title">1. Personal & Contact Information</div>
+            <div class="section-description">
+              Tell us who you are and how we should contact you. These details will appear on your IPS and account file.
+            </div>
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="fullName">Full Legal Name<span class="required">*</span></label>
+                <input type="text" id="fullName" name="fullName" required placeholder="e.g. John A. Doe" />
+                <div class="error" data-error-for="fullName">Please enter your full legal name.</div>
+              </div>
+              <div class="form-group">
+                <label for="dob">Date of Birth<span class="required">*</span></label>
+                <input type="date" id="dob" name="dob" required />
+                <div class="error" data-error-for="dob">Please provide your date of birth.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="nationality">Nationality<span class="required">*</span></label>
+                <input type="text" id="nationality" name="nationality" required placeholder="e.g. Ugandan" />
+                <div class="error" data-error-for="nationality">Please provide your nationality.</div>
+              </div>
+              <div class="form-group">
+                <label for="secondPassport">Second Passport (if any)</label>
+                <input type="text" id="secondPassport" name="secondPassport" placeholder="e.g. Canadian" />
+              </div>
+
+              <div class="form-group">
+                <label for="residence">Residence (Country & City)<span class="required">*</span></label>
+                <input type="text" id="residence" name="residence" required placeholder="e.g. Dubai, UAE" />
+                <div class="error" data-error-for="residence">Please provide your city and country of residence.</div>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number<span class="required">*</span></label>
+                <input type="tel" id="phone" name="phone" required placeholder="+971..." />
+                <div class="error" data-error-for="phone">Please provide a phone number.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="email">Email Address<span class="required">*</span></label>
+                <input type="email" id="email" name="email" required placeholder="you@example.com" />
+                <div class="error" data-error-for="email">Please provide a valid email address.</div>
+              </div>
+              <div class="form-group">
+                <label>Preferred Method of Communication</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="commPreference" value="Email" checked />
+                    Email
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="commPreference" value="WhatsApp" />
+                    WhatsApp
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="commPreference" value="Phone" />
+                    Phone
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="commPreference" value="Portal" />
+                    Client Portal
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="occupation">Occupation & Employer / Business Name<span class="required">*</span></label>
+                <input type="text" id="occupation" name="occupation" required placeholder="e.g. CFO, ABC Group" />
+                <div class="error" data-error-for="occupation">Please provide your occupation and employer/business.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="maritalStatus">Marital Status</label>
+                <select id="maritalStatus" name="maritalStatus">
+                  <option value="">Select...</option>
+                  <option>Single</option>
+                  <option>Married</option>
+                  <option>Separated</option>
+                  <option>Divorced</option>
+                  <option>Widowed</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="dependants">Dependants (number, ages, education stage)</label>
+                <textarea id="dependants" name="dependants" placeholder="e.g. 2 children, 8 & 12 years, primary school"></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="structures">
+                  Existing Investment Structures
+                  <span class="hint">(trust, holding company, family office)</span>
+                </label>
+                <textarea id="structures" name="structures"
+                  placeholder="Describe any personal/company investment structures currently in place."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 2: FINANCIAL PROFILE -->
+          <fieldset data-title="Financial Profile & Income">
+            <div class="section-title">2. Financial Profile & Income</div>
+            <div class="section-description">
+              We use this to understand your capacity for risk and to size allocations appropriately.
+            </div>
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="incomeSources">Primary Source(s) of Income<span class="required">*</span></label>
+                <textarea id="incomeSources" name="incomeSources" required
+                  placeholder="e.g. Employment salary, business profits, rental income"></textarea>
+                <div class="error" data-error-for="incomeSources">Please describe your main sources of income.</div>
+              </div>
+
+              <div class="form-group">
+                <label for="annualIncome">Annual Income Range (USD)</label>
+                <select id="annualIncome" name="annualIncome">
+                  <option value="">Select...</option>
+                  <option>&lt; 50,000</option>
+                  <option>50,000 – 150,000</option>
+                  <option>150,000 – 500,000</option>
+                  <option>&gt; 500,000</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="incomeStability">Income Stability</label>
+                <select id="incomeStability" name="incomeStability">
+                  <option value="">Select...</option>
+                  <option>Stable</option>
+                  <option>Moderate variability</option>
+                  <option>Highly variable</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="liquidNetWorth">Liquid Net Worth (USD) <span class="hint">(approximate)</span></label>
+                <input type="number" id="liquidNetWorth" name="liquidNetWorth" min="0" placeholder="e.g. 250000" />
+              </div>
+
+              <div class="form-group">
+                <label for="totalNetWorth">Total Net Worth (USD) <span class="hint">(approximate)</span></label>
+                <input type="number" id="totalNetWorth" name="totalNetWorth" min="0" placeholder="e.g. 1500000" />
+              </div>
+
+              <div class="form-group">
+                <label for="debt">Existing Debt</label>
+                <textarea id="debt" name="debt"
+                  placeholder="Type, outstanding amount, interest rate and lender (if applicable)."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="monthlySurplus">Current Monthly Surplus Available for Investment (USD)</label>
+                <input type="number" id="monthlySurplus" name="monthlySurplus" min="0" placeholder="e.g. 2000" />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 3: EXPERIENCE -->
+          <fieldset data-title="Investment Experience & Preferences">
+            <div class="section-title">3. Investment Experience & Preferences</div>
+            <div class="section-description">
+              This helps us align product complexity and portfolio construction to your level of experience.
+            </div>
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="investingYears">How long have you been investing?</label>
+                <select id="investingYears" name="investingYears">
+                  <option value="">Select...</option>
+                  <option>None</option>
+                  <option>&lt; 3 years</option>
+                  <option>3 – 10 years</option>
+                  <option>10+ years</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Asset Classes You Have Invested In</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Equities" />
+                    Equities
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Bonds" />
+                    Bonds
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="ETFs" />
+                    ETFs
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Real Estate" />
+                    Real Estate
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Private Equity" />
+                    Private Equity
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Venture Capital" />
+                    Venture Capital
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Crypto" />
+                    Crypto
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Alternatives" />
+                    Alternatives
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="assetClasses" value="Money Markets" />
+                    Money Markets
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="knowledgeLevel">Self-assessed Investment Knowledge</label>
+                <select id="knowledgeLevel" name="knowledgeLevel">
+                  <option value="">Select...</option>
+                  <option>None</option>
+                  <option>Basic</option>
+                  <option>Intermediate</option>
+                  <option>Advanced</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="investmentApproach">Preferred Investment Approach</label>
+                <select id="investmentApproach" name="investmentApproach">
+                  <option value="">Select...</option>
+                  <option>Passive</option>
+                  <option>Active</option>
+                  <option>Discretionary</option>
+                  <option>Execution-only</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="decisionHorizon">Typical Investment Decision-making Horizon</label>
+                <select id="decisionHorizon" name="decisionHorizon">
+                  <option value="">Select...</option>
+                  <option>Days</option>
+                  <option>Months</option>
+                  <option>Years</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="monitorFrequency">How closely do you monitor your investments?</label>
+                <select id="monitorFrequency" name="monitorFrequency">
+                  <option value="">Select...</option>
+                  <option>Daily</option>
+                  <option>Weekly</option>
+                  <option>Monthly</option>
+                  <option>Quarterly</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 4: OBJECTIVES & GOALS -->
+          <fieldset data-title="Objectives & Goals">
+            <div class="section-title">4. Objectives & Goals</div>
+            <div class="section-description">
+              Define what success looks like. We will map these goals to time horizons and suitable asset allocations.
+            </div>
+
+            <div class="form-group">
+              <label for="primaryObjective">Primary Investment Objective<span class="required">*</span></label>
+              <select id="primaryObjective" name="primaryObjective" required>
+                <option value="">Select...</option>
+                <option>Capital preservation</option>
+                <option>Income generation</option>
+                <option>Growth</option>
+                <option>Aggressive growth</option>
+                <option>Speculation</option>
+              </select>
+              <div class="error" data-error-for="primaryObjective">Please choose a primary investment objective.</div>
+            </div>
+
+            <div class="form-group">
+              <label>Key Life or Financial Goals (select all that apply)</label>
+              <div class="inline-options">
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="Education" />
+                  Education fund
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="Retirement" />
+                  Retirement
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="Business" />
+                  Business expansion
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="RealEstate" />
+                  Real estate
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="WealthPreservation" />
+                  Wealth preservation
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="Emergency" />
+                  Emergency fund
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="Generational" />
+                  Generational wealth
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="goals" value="Health" />
+                  Health-related funding
+                </label>
+              </div>
+            </div>
+
+            <div class="helper-text">
+              Use the fields below to specify up to three priority goals in more detail (amount, horizon, currency).
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="goal1">Goal 1</label>
+                <input type="text" id="goal1" name="goal1" placeholder="e.g. Children's university tuition" />
+              </div>
+              <div class="form-group">
+                <label for="goal1Amount">Target Amount & Horizon</label>
+                <input type="text" id="goal1Amount" name="goal1Amount"
+                  placeholder="e.g. USD 150,000 over 10–12 years" />
+              </div>
+
+              <div class="form-group">
+                <label for="goal2">Goal 2</label>
+                <input type="text" id="goal2" name="goal2" placeholder="e.g. Retirement income" />
+              </div>
+              <div class="form-group">
+                <label for="goal2Amount">Target Amount & Horizon</label>
+                <input type="text" id="goal2Amount" name="goal2Amount"
+                  placeholder="e.g. USD 3,000/month from age 60" />
+              </div>
+
+              <div class="form-group">
+                <label for="goal3">Goal 3</label>
+                <input type="text" id="goal3" name="goal3" placeholder="e.g. Second home purchase" />
+              </div>
+              <div class="form-group">
+                <label for="goal3Amount">Target Amount & Horizon</label>
+                <input type="text" id="goal3Amount" name="goal3Amount"
+                  placeholder="e.g. USD 500,000 within 8 years" />
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 5: RISK -->
+          <fieldset data-title="Risk Tolerance & Capacity">
+            <div class="section-title">5. Risk Tolerance & Capacity</div>
+            <div class="section-description">
+              Understanding both your willingness and ability to take risk is central to your strategic asset allocation.
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>If your portfolio fell by 10% in a year, what would you do?</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="fall10" value="Sell" />
+                    Sell to reduce losses
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="fall10" value="Hold" />
+                    Hold and wait
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="fall10" value="BuyMore" />
+                    Invest more at lower prices
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>If your portfolio fell by 25% in a year, what would you do?</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="fall25" value="Sell" />
+                    Sell to reduce losses
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="fall25" value="Hold" />
+                    Hold and wait
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="fall25" value="BuyMore" />
+                    Invest more at lower prices
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="volatility">Acceptable Level of Portfolio Volatility</label>
+                <select id="volatility" name="volatility">
+                  <option value="">Select...</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="liquidity">Liquidity Preference</label>
+                <select id="liquidity" name="liquidity">
+                  <option value="">Select...</option>
+                  <option>Daily</option>
+                  <option>Monthly</option>
+                  <option>1–3 years</option>
+                  <option>3–7 years</option>
+                  <option>7+ years</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="lossTolerance">Annual Loss Tolerance (approximate)</label>
+                <select id="lossTolerance" name="lossTolerance">
+                  <option value="">Select...</option>
+                  <option>0%</option>
+                  <option>Up to 5%</option>
+                  <option>Up to 10%</option>
+                  <option>Up to 20%</option>
+                  <option>Up to 40%</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Ability to increase contributions if markets fall</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="increaseOnDip" value="Yes" />
+                    Yes
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="increaseOnDip" value="No" />
+                    No
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="increaseOnDip" value="Unsure" />
+                    Unsure
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="incomeDependence">Dependence on Investment Income for Living Expenses</label>
+                <select id="incomeDependence" name="incomeDependence">
+                  <option value="">Select...</option>
+                  <option>High</option>
+                  <option>Medium</option>
+                  <option>Low</option>
+                  <option>None</option>
+                </select>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 6: CURRENT PORTFOLIO -->
+          <fieldset data-title="Current Portfolio & Holdings">
+            <div class="section-title">6. Current Portfolio & Holdings</div>
+            <div class="section-description">
+              Provide a high-level picture of what you already own. We can refine details during the advisory meeting.
+            </div>
+
+            <div class="form-group">
+              <label for="portfolioSummary">Summary of Existing Investments</label>
+              <textarea id="portfolioSummary" name="portfolioSummary"
+                placeholder="Assets, allocation %, approximate values and custodians/banks."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="currentProducts">Products / Investments Currently Held</label>
+              <textarea id="currentProducts" name="currentProducts"
+                placeholder="List any key instruments e.g. specific funds, bonds, private deals, etc."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="concentration">Any concentrations in a single sector, geography, or asset?</label>
+              <textarea id="concentration" name="concentration"
+                placeholder="e.g. 60% in employer stock, 80% in one country, etc."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="illiquid">Restricted / Illiquid Assets with Lock-up</label>
+              <textarea id="illiquid" name="illiquid"
+                placeholder="e.g. private equity funds, venture funds, long lock-up structures."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="cryptoHoldings">Crypto or Digital Asset Holdings (optional)</label>
+              <textarea id="cryptoHoldings" name="cryptoHoldings"
+                placeholder="e.g. BTC, ETH, stablecoins, yield strategies, etc."></textarea>
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="pension">Pension Funds / Retirement Accounts</label>
+                <textarea id="pension" name="pension"
+                  placeholder="e.g. employer pension, private retirement savings plans, etc."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="insurance">Insurance Policies</label>
+                <textarea id="insurance" name="insurance"
+                  placeholder="Life, health, disability, income protection, education plans, etc."></textarea>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 7: VALUES / IMPACT -->
+          <fieldset data-title="Ethical, Religious & Impact Preferences">
+            <div class="section-title">7. Ethical, Religious & Impact Preferences</div>
+            <div class="section-description">
+              If relevant, we can align your portfolio with your values, ethics, and impact preferences.
+            </div>
+
+            <div class="form-group">
+              <label for="esgPreference">Do you have ESG or impact investment preferences?</label>
+              <textarea id="esgPreference" name="esgPreference"
+                placeholder="e.g. prefer climate solutions, social impact funds, SDG-aligned strategies, etc."></textarea>
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Preference for Shariah-compliant Investment Options</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="shariah" value="Required" />
+                    Required
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="shariah" value="Preferred" />
+                    Preferred
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="shariah" value="NoPreference" />
+                    No preference
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Industries You Prefer to Avoid</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="checkbox" name="excludedSectors" value="Alcohol" />
+                    Alcohol
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="excludedSectors" value="Tobacco" />
+                    Tobacco
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="excludedSectors" value="Gambling" />
+                    Gambling
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="excludedSectors" value="FossilFuels" />
+                    Fossil fuels
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="excludedSectors" value="Weapons" />
+                    Weapons
+                  </label>
+                  <label class="chip">
+                    <input type="checkbox" name="excludedSectors" value="Other" />
+                    Other
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="climateAligned">Do you want climate-aligned or net-zero oriented strategies?</label>
+              <textarea id="climateAligned" name="climateAligned"
+                placeholder="Optional: describe any specific climate or sustainability preferences."></textarea>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 8: KYC / COMPLIANCE -->
+          <fieldset data-title="KYC & Compliance">
+            <div class="section-title">8. Regulatory, KYC & Compliance</div>
+            <div class="section-description">
+              Basic compliance information to meet regulatory standards. Supporting documents will be requested separately.
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="idType">Primary Identification Document</label>
+                <select id="idType" name="idType">
+                  <option value="">Select...</option>
+                  <option>Passport</option>
+                  <option>National ID</option>
+                  <option>Driver’s license</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="proofOfAddress">Proof of Address</label>
+                <select id="proofOfAddress" name="proofOfAddress">
+                  <option value="">Select...</option>
+                  <option>Utility bill</option>
+                  <option>Bank statement</option>
+                  <option>Tenancy agreement</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="sourceOfFunds">Source of Funds Declaration<span class="required">*</span></label>
+                <textarea id="sourceOfFunds" name="sourceOfFunds" required
+                  placeholder="e.g. Employment income, business income, sale of property, inheritance, etc."></textarea>
+                <div class="error" data-error-for="sourceOfFunds">Please describe your primary source of funds.</div>
+              </div>
+
+              <div class="form-group">
+                <label>Are you a Politically Exposed Person (PEP) or related to one?</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="pepStatus" value="No" />
+                    No
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="pepStatus" value="Yes" />
+                    Yes
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="legalEncumbrances">Any legal disputes or encumbrances affecting your wealth?</label>
+                <textarea id="legalEncumbrances" name="legalEncumbrances"
+                  placeholder="If yes, please describe briefly."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="taxResidency">Tax Residency & Identification Number</label>
+                <textarea id="taxResidency" name="taxResidency"
+                  placeholder="e.g. Tax resident in UAE & Uganda, include TINs where applicable."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label>Do you require tax-optimised structuring advice?</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="taxStructuring" value="Yes" />
+                    Yes
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="taxStructuring" value="No" />
+                    No
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="taxStructuring" value="Unsure" />
+                    Unsure, would like to discuss
+                  </label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 9: DIGITAL / WEB3 -->
+          <fieldset data-title="Digital & Web3 Readiness">
+            <div class="section-title">9. Digital & Web3 Readiness (Optional)</div>
+            <div class="section-description">
+              Complete this if you are interested in digital assets, wallets, or tokenized products.
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label>Do you currently use a crypto wallet?</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="hasWallet" value="Yes" />
+                    Yes
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="hasWallet" value="No" />
+                    No
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="walletType">Preferred Wallet (if any)</label>
+                <select id="walletType" name="walletType">
+                  <option value="">Select...</option>
+                  <option>MetaMask</option>
+                  <option>Coinbase Wallet</option>
+                  <option>Trust Wallet</option>
+                  <option>Ledger</option>
+                  <option>Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Would you like to connect a wallet for shadow portfolio tracking only?</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="shadowTracking" value="Yes" />
+                    Yes
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="shadowTracking" value="No" />
+                    No
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="digitalComfort">Comfort with digital signatures / multisig wallets</label>
+                <select id="digitalComfort" name="digitalComfort">
+                  <option value="">Select...</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Interest in including digital assets in your portfolio</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="digitalExposure" value="None" />
+                    None
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="digitalExposure" value="Small" />
+                    Small
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="digitalExposure" value="Moderate" />
+                    Moderate
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="digitalExposure" value="High" />
+                    High
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Interest in tokenized assets (RWAs, tokenized treasuries, stablecoins)</label>
+                <div class="inline-options">
+                  <label class="chip">
+                    <input type="radio" name="tokenizedInterest" value="Yes" />
+                    Yes
+                  </label>
+                  <label class="chip">
+                    <input type="radio" name="tokenizedInterest" value="No" />
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 10: SERVICE MODEL -->
+          <fieldset data-title="Service Model & Expectations">
+            <div class="section-title">10. Service Model & Expectations</div>
+            <div class="section-description">
+              Clarify how you would like us to work with you and what you expect from the advisory relationship.
+            </div>
+
+            <div class="grid grid-2">
+              <div class="form-group">
+                <label for="engagementModel">Preferred Engagement Model</label>
+                <select id="engagementModel" name="engagementModel">
+                  <option value="">Select...</option>
+                  <option>Advisory (Non-discretionary)</option>
+                  <option>Discretionary</option>
+                  <option>Hybrid</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="reportingFrequency">Reporting Frequency</label>
+                <select id="reportingFrequency" name="reportingFrequency">
+                  <option value="">Select...</option>
+                  <option>Monthly</option>
+                  <option>Quarterly</option>
+                  <option>Semi-annual</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="benchmarkPreference">Performance Benchmark Preference</label>
+                <textarea id="benchmarkPreference" name="benchmarkPreference"
+                  placeholder="e.g. CPI + 4%, MSCI World, blended benchmark, etc."></textarea>
+              </div>
+
+              <div class="form-group">
+                <label for="delegation">Willingness to delegate portfolio decisions</label>
+                <select id="delegation" name="delegation">
+                  <option value="">Select...</option>
+                  <option>Low</option>
+                  <option>Medium</option>
+                  <option>High</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label>What do you expect from your advisor? (select all that apply)</label>
+              <div class="inline-options">
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="AssetAllocation" />
+                  Strategic asset allocation
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="TaxStructuring" />
+                  Tax & structuring support
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="PortfolioReview" />
+                  Regular portfolio review
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="PrivateMarkets" />
+                  Access to private markets
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="FinancialPlanning" />
+                  Financial planning
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="Research" />
+                  In-depth research
+                </label>
+                <label class="chip">
+                  <input type="checkbox" name="expectations" value="GlobalAccess" />
+                  Access to global markets
+                </label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="feeComfort">Budget / Comfort with Advisory Fees</label>
+              <textarea id="feeComfort" name="feeComfort"
+                placeholder="e.g. comfortable with % of assets under management, performance fees, or flat retainers."></textarea>
+            </div>
+          </fieldset>
+
+          <!-- SECTION 11: FINAL / OPEN QUESTIONS -->
+          <fieldset data-title="Final Details & Signature">
+            <div class="section-title">11. Final Details & Signature</div>
+            <div class="section-description">
+              Final reflections. These help us frame your IPS, communication style, and long-term partnership.
+            </div>
+
+            <div class="form-group">
+              <label for="anythingElse">Is there anything else you want us to know?</label>
+              <textarea id="anythingElse" name="anythingElse"
+                placeholder="Any constraints, preferences, or context not covered above."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="success10yrs">What does financial success look like to you in 10 years?</label>
+              <textarea id="success10yrs" name="success10yrs"
+                placeholder="Describe your ideal financial position and lifestyle in 10 years."></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="riskSentence">Describe your relationship with risk in one sentence.</label>
+              <textarea id="riskSentence" name="riskSentence"
+                placeholder="e.g. 'I am comfortable with short-term volatility for long-term gains.'"></textarea>
+            </div>
+
+            <div class="form-group">
+              <label for="signatureName">Name for Digital Signature<span class="required">*</span></label>
+              <input type="text" id="signatureName" name="signatureName" required
+                placeholder="Type your name to confirm accuracy of the above information." />
+              <div class="error" data-error-for="signatureName">Please type your name to digitally sign.</div>
+            </div>
+
+            <div class="form-group">
+              <label>Date of Completion<span class="required">*</span></label>
+              <input type="date" id="signatureDate" name="signatureDate" required />
+              <div class="error" data-error-for="signatureDate">Please provide the completion date.</div>
+            </div>
+
+            <p class="helper-text">
+              By submitting this form, you confirm that the information provided is true and complete to the best of
+              your knowledge and will be used solely for advisory and compliance purposes.
+            </p>
+          </fieldset>
+
+          <!-- Footer -->
+          <div class="form-footer">
+            <div class="button-row">
+              <button type="button" class="btn-secondary" id="prevBtn">← Previous</button>
+              <button type="button" class="btn-primary" id="nextBtn">Next →</button>
+            </div>
+            <div class="meta-note">
+              You can review and amend your responses with your advisor before finalising your IPS.
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      // Live Apps Script Web App URL (Google Sheets connector)
+      const GOOGLE_SCRIPT_URL =
+        "https://script.google.com/macros/s/AKfycbwVQY4cPNtl2CYO26nq0CgMqjC0TJBXWhWKnm_NxJJSUVhIxi1Jpy4xP1j9ZSoOc5tzkQ/exec";
+
+      const form = document.getElementById("onboardingForm");
+      const fieldsets = Array.from(form.querySelectorAll("fieldset"));
+      const totalSteps = fieldsets.length;
+      let currentStep = 0;
+
+      const progressBar = document.getElementById("progressBar");
+      const progressPercent = document.getElementById("progressPercent");
+      const stepLabel = document.getElementById("stepLabel");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const stepPills = Array.from(document.querySelectorAll(".step-pill"));
+
+      function updateChipSelection() {
+        document.querySelectorAll(".chip").forEach((chip) => {
+          const input = chip.querySelector("input");
+          if (!input) return;
+          if (input.type === "radio") {
+            const name = input.name;
+            const checked = document.querySelector(`input[name="${name}"]:checked`);
+            chip.classList.toggle("selected", checked === input);
+          } else if (input.type === "checkbox") {
+            chip.classList.toggle("selected", input.checked);
+          }
+        });
+      }
+
+      document.addEventListener("change", (e) => {
+        if (e.target.closest(".chip")) {
+          updateChipSelection();
+        }
+      });
+
+      function showStep(stepIndex) {
+        fieldsets.forEach((fs, index) => {
+          fs.classList.toggle("active", index === stepIndex);
+        });
+
+        const title = fieldsets[stepIndex].dataset.title || `Section ${stepIndex + 1}`;
+        stepLabel.textContent = `Section ${stepIndex + 1} of ${totalSteps} · ${title}`;
+        const progress = Math.round(((stepIndex + 1) / totalSteps) * 100);
+        progressBar.style.width = `${progress}%`;
+        progressPercent.textContent = `${progress}%`;
+
+        prevBtn.style.visibility = stepIndex === 0 ? "hidden" : "visible";
+        nextBtn.textContent = stepIndex === totalSteps - 1 ? "Submit" : "Next →";
+
+        stepPills.forEach((pill, index) => {
+          pill.classList.toggle("active", index === stepIndex);
+          pill.classList.toggle("completed", index < stepIndex);
+        });
+
+        currentStep = stepIndex;
+      }
+
+      function validateStep(stepIndex) {
+        let valid = true;
+        const fs = fieldsets[stepIndex];
+        const requiredFields = Array.from(fs.querySelectorAll("[required]"));
+
+        requiredFields.forEach((input) => {
+          const errorEl = form.querySelector(`.error[data-error-for="${input.id}"]`);
+          if (errorEl) errorEl.classList.remove("visible");
+
+          if (!input.value || input.value.trim() === "") {
+            valid = false;
+            if (errorEl) errorEl.classList.add("visible");
+          }
+        });
+
+        return valid;
+      }
+
+      prevBtn.addEventListener("click", () => {
+        if (currentStep > 0) showStep(currentStep - 1);
+      });
+
+      nextBtn.addEventListener("click", () => {
+        if (!validateStep(currentStep)) {
+          return;
+        }
+
+        if (currentStep < totalSteps - 1) {
+          showStep(currentStep + 1);
+        } else {
+          // Final submit – build payload and send to Google Sheets via Apps Script
+          const formData = new FormData(form);
+          const payload = {};
+
+          for (const [key, value] of formData.entries()) {
+            if (payload[key]) {
+              if (Array.isArray(payload[key])) {
+                payload[key].push(value);
+              } else {
+                payload[key] = [payload[key], value];
+              }
+            } else {
+              payload[key] = value;
+            }
+          }
+
+          // Basic UX: disable button while submitting
+          nextBtn.disabled = true;
+          nextBtn.textContent = "Submitting...";
+
+          fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
+          })
+            .then((res) => {
+              if (!res.ok) {
+                throw new Error("Network response was not ok");
+              }
+              return res.text();
+            })
+            .then((text) => {
+              console.log("Google Sheets response:", text);
+              alert("Thank you. Your New Client Questionnaire has been submitted.");
+              form.reset();
+              updateChipSelection();
+              showStep(0);
+            })
+            .catch((err) => {
+              console.error("Error submitting form:", err);
+              alert("There was an error submitting the form. Please try again or contact support.");
+            })
+            .finally(() => {
+              nextBtn.disabled = false;
+              nextBtn.textContent = "Submit";
+            });
+        }
+      });
+
+      stepPills.forEach((pill) => {
+        pill.addEventListener("click", () => {
+          const targetStep = parseInt(pill.dataset.step, 10);
+          if (targetStep <= currentStep) {
+            showStep(targetStep);
+          }
+        });
+      });
+
+      // Initial state
+      showStep(0);
+      updateChipSelection();
+    })();
+  </script>
+</body>
+</html>
